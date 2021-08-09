@@ -1,5 +1,5 @@
 import sys
-sys.path.append('C:/Users/utilisateur/Desktop/simplon_ia/travaux/referentiels/package_ml/ml_mise_prod/diamond')
+sys.path.append('/home/asabuzz/python_ml_dl/api-dockers/')
 from pydantic import BaseModel, Field
 from fastapi import FastAPI
 from joblib import load
@@ -19,8 +19,6 @@ class DiamondController(BaseModel):
     y: float = Field(..., example=2.62)
     z: float = Field(..., example=3.98)
 
-
-
 model = load('fit_model.joblib')
 app = FastAPI()
 
@@ -29,13 +27,13 @@ def read_index():
     return FileResponse("../app/views/index.html")
 
 
-@app.post("/predict")
+@app.get("/predict")
 async def predict(payload: DiamondController):
-     # convert the payload to pandas DataFrame
+    # convert the payload to pandas DataFrame
     input_df = pd.DataFrame([payload.dict()])
     prediction = model.predict(input_df)
     return {
-    'Price': prediction
+        'prediction': prediction
     }
 
 

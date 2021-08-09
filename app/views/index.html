@@ -29,7 +29,7 @@
   <body>
     <div id="app">
       <v-app>
-        <v-app-bar app dense dark color="purple">
+        <v-app-bar app dense dark color="green">
           <v-app-bar-title>Evaluer le prix de votre Diamant</v-app-bar-title>
         </v-app-bar>
         <v-main>
@@ -49,10 +49,14 @@
                 </v-text-field>
               </div>
               <div class="my-3">
-                <v-btn text color="purple" @click="call_api"> predict </v-btn>
+                <v-btn text color="green" @click="call_api"> predict </v-btn>
               </div>
             </v-container>
           </v-navigation-drawer>
+          <v-container id="main">
+            <h1>Prédiction</h1>
+            Price : {{ prediction }}
+        </v-container>
         </v-main>
       </v-app>
     </div>
@@ -66,56 +70,17 @@
         data: function () {
           return {
             payload: [
-              {
-                name: "cut",
-                value: "Ideal",
-                type: "str",
-                items: ["Fair", "Good", "Very Good", "Premium", "Ideal"],
-              },
-              {
-                name: "color",
-                value: "J",
-                type: "str",
-                items: ["J", "I", "H", "G", "F", "E", "D"],
-              },
-              {
-                name: "clarity",
-                value: "IF",
-                type: "str",
-                items: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"],
-              },
-              {
-                name: "carat",
-                value: 0.6,
-                type: "float",
-              },
-              {
-                name: "depth",
-                value: 61.0,
-                type: "float",
-              },
-              {
-                name: "table",
-                value: 55.0,
-                type: "float",
-              },
-              {
-                name: "x",
-                value: 3.56,
-                type: "float",
-              },
-              {
-                name: "y",
-                value: 2.62,
-                type: "float",
-              },
-              {
-                name: "z",
-                value: 3.98,
-                type: "float",
-              },
+              {name: "cut", value: "Ideal", type: "str", items: ["Fair", "Good", "Very Good", "Premium", "Ideal"]},
+              {name: "color", value: "J", type: "str", items: ["J", "I", "H", "G", "F", "E", "D"]},
+              {name: "clarity", value: "IF", type: "str", items: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]},
+              {name: "carat", value: 0.6, type: "float"},
+              {name: "depth", value: 61.0, type: "float"},
+              {name: "table", value: 55.0, type: "float"},
+              {name: "x", value: 3.56, type: "float"},
+              {name: "y", value: 2.62, type: "float"},
+              {name: "z", value: 3.98, type: "float"},
             ],
-            score: null,
+            prediction: null,
           };
         },
         methods: {
@@ -125,15 +90,11 @@
               (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
               {}
             );
-            axios
-              .post("C:/Users/utilisateur/Desktop/simplon_ia/travaux/referentiels/package_ml/ml_mise_prod/diamond/api/fast/predict", this.payload)
-        
+            axios.get("/predict", payload)
               .then((resp) => resp.data)
-                
+              
               .then((data) => {
-                console.log('toto2')
-                this.score = data.score;
-                  
+                this.prediction = data.prediction;   
               })
               .catch((e) => console.log(e));
           },
