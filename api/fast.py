@@ -1,13 +1,44 @@
 import sys
 sys.path.append('C:/Users/utilisateur/Desktop/simplon_ia/travaux/referentiels/package_ml/ml_mise_prod/diamond')
+from pydantic import BaseModel, Field
 from fastapi import FastAPI
 from joblib import load
+import pandas as pd
+from fastapi.responses import FileResponse
+from sklearn.tree import DecisionTreeRegressor
 
+# data model of predictors
+class DiamondController(BaseModel):
+    cut: str = Field(..., example='Ideal')
+    color: str = Field(..., example='J')
+    clarity: str = Field(..., example='IF')
+    carat: float = Field(..., example=0.6)
+    depth: float = Field(..., example=61.0)
+    table: float = Field(..., example=55.0)
+    x: float = Field(..., example=3.56)
+    y: float = Field(..., example=2.62)
+    z: float = Field(..., example=3.98)
+
+
+
+model = load('fit_model.joblib')
 app = FastAPI()
-@app.get("/")
-async def root():
-    model = load('fit_model.joblib')
-    return {"message": model}
+
+@app.get("/accueil")
+def read_index():
+    return FileResponse("../app/views/index.html")
+
+
+@app.post("/predict")
+async def predict(payload: DiamondController):
+     # convert the payload to pandas DataFrame
+    input_df = pd.DataFrame([payload.dict()])
+    prediction = model.predict(input_df)
+    return {
+    'Price': prediction
+    }
+
+
 
 # class Prediction:
 #     def __init__(self):
