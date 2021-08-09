@@ -54,8 +54,10 @@
             </v-container>
           </v-navigation-drawer>
           <v-container id="main">
+            {{ payload }}
             <h1>Prédiction</h1>
-            Price : {{ prediction }}
+            <p v-if="prediction">Price :</p>
+            {{ prediction }}
         </v-container>
         </v-main>
       </v-app>
@@ -70,10 +72,10 @@
         data: function () {
           return {
             payload: [
-              {name: "cut", value: "Ideal", type: "str", items: ["Fair", "Good", "Very Good", "Premium", "Ideal"]},
-              {name: "color", value: "J", type: "str", items: ["J", "I", "H", "G", "F", "E", "D"]},
-              {name: "clarity", value: "IF", type: "str", items: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]},
               {name: "carat", value: 0.6, type: "float"},
+              {name: "cut", value: "Ideal", type: "category", items: ["Fair", "Good", "Very Good", "Premium", "Ideal"]},
+              {name: "color", value: "J", type: "category", items: ["J", "I", "H", "G", "F", "E", "D"]},
+              {name: "clarity", value: "IF", type: "category", items: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]},
               {name: "depth", value: 61.0, type: "float"},
               {name: "table", value: 55.0, type: "float"},
               {name: "x", value: 3.56, type: "float"},
@@ -87,12 +89,11 @@
           call_api: function () {
             // reformat the payload from [{name: Age, value: 10}, ...] to {Age:10, ...}
             payload = this.payload.reduce(
-              (acc, cur) => ({ ...acc, [cur.name]: cur.value }),
+              (acc, cur) => ({ ...acc, [(cur.name)]: cur.value }),
               {}
-            );
+            ); 
             axios.get("/predict", payload)
-              .then((resp) => resp.data)
-              
+              .then((resp) => resp.data, console.log(payload))
               .then((data) => {
                 this.prediction = data.prediction;   
               })

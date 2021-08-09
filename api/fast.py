@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from joblib import load
 import pandas as pd
 from fastapi.responses import FileResponse
+import os
 from sklearn.tree import DecisionTreeRegressor
 
 # data model of predictors
@@ -19,24 +20,25 @@ class DiamondController(BaseModel):
     y: float = Field(..., example=2.62)
     z: float = Field(..., example=3.98)
 
-model = load('fit_model.joblib')
 app = FastAPI()
+
+def get_model():
+    path = os.path.dirname(os.path.realpath(__file__))
+    model = load(f'{path}/fit_model.joblib')
+    return model
 
 @app.get("/accueil")
 def read_index():
     return FileResponse("../app/views/index.html")
 
-
 @app.get("/predict")
-async def predict(payload: DiamondController):
+async def predict(payload:DiamondController):
     # convert the payload to pandas DataFrame
-    input_df = pd.DataFrame([payload.dict()])
-    prediction = model.predict(input_df)
+    input_df = pd.DataFrame(payload, index=range(1))
+    prediction = get_model().predict(input_df)
     return {
         'prediction': prediction
     }
-
-
 
 # class Prediction:
 #     def __init__(self):
