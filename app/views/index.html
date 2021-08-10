@@ -1,98 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<body>
-    <div class="container">
-        <div class="row p-5">
-            <div class="col-md-12">
-                <h1 class="text-center">Quel est le prix de votre diamant ? Venez essayer :) </h1>
-            </div>
-        </div>
-           
-        <form class="row g-3" method="Post" action="/submitform">
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Carat</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">depth</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">table</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">X</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Y</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="col-md-4 mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Z</label>
-                <input type="number" class="form-control" id="exampleFormControlInput1">
-            </div>
-
-
-            <div class="col-md-4">
-                <label for="inputState" class="form-label">Cut</label>
-                <select id="inputState" class="form-select">
-                    <option selected>Choisir la qualité de la taille</option>
-                    <option>Fair</option>
-                    <option>Good</option>
-                    <option>Very Good</option>
-                    <option>Premium</option>
-                    <option>Ideal</option>
-
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="inputState" class="form-label">Color</label>
-                <select id="inputState" class="form-select">
-                    <option selected>Choisir la couleur</option>
-                    <option>J</option>
-                    <option>I</option>
-                    <option>H</option>
-                    <option>G</option>
-                    <option>F</option>
-                    <option>E</option>
-                    <option>D</option>
-                </select>
-            </div>
-            <div class="col-md-4">
-                <label for="inputState" class="form-label">Clarity</label>
-                <select id="inputState" class="form-select">
-                    <option selected>Choisir la clarté</option>
-                    <option>I1</option>
-                    <option>SI2</option>
-                    <option>SI1</option>
-                    <option>VS2</option>
-                    <option>VS1</option>
-                    <option>VVS2</option>
-                    <option>VVS1</option>
-                    <option>IF</option>
-                </select>
-            </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-primary">Prédire le prix de votre diamant ?</button>
-            </div>
-        </form>
+  <body>
+    <div id="app">
+      <v-app>
+        <v-app-bar app dense dark color="green">
+          <v-app-bar-title>Evaluer le prix de votre Diamant</v-app-bar-title>
+        </v-app-bar>
+        <v-main>
+          <v-navigation-drawer right absolute>
+            <v-container>
+              <div class="my-3">Side Panel</div>
+              <v-divider></v-divider>
+              <div class="my-6">
+                <v-text-field
+                  v-for="p in payload"
+                  v-model="p.value"
+                  :label="p.name"
+                  :key="p.name"
+                  dense
+                  outlined
+                >
+                </v-text-field>
+              </div>
+              <div class="my-3">
+                <v-btn text color="green" @click="call_api"> predict </v-btn>
+              </div>
+            </v-container>
+          </v-navigation-drawer>
+          <v-container id="main">
+            <h1>Prédiction</h1>
+            <p v-if="prediction">Price :</p>
+            {{ prediction }} €
+        </v-container>
+        </v-main>
+      </v-app>
     </div>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        vuetify: new Vuetify(),
+        data: function () {
+          return {
+            payload: [
+              {name: "carat", value: 0.6, type: "float"},
+              {name: "cut", value: "Ideal", type: "category", items: ["Fair", "Good", "Very Good", "Premium", "Ideal"]},
+              {name: "color", value: "J", type: "category", items: ["J", "I", "H", "G", "F", "E", "D"]},
+              {name: "clarity", value: "IF", type: "category", items: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]},
+              {name: "depth", value: 61.0, type: "float"},
+              {name: "table", value: 55.0, type: "float"},
+              {name: "x", value: 3.56, type: "float"},
+              {name: "y", value: 2.62, type: "float"},
+              {name: "z", value: 3.98, type: "float"},
+            ],
+            prediction: null,
+          };
+        },
+        methods: {
+          call_api: function () {
+            // reformat the payload from [{name: Age, value: 10}, ...] to {Age:10, ...}
+            payload = this.payload.reduce(
+              (acc, cur) => ({ ...acc, [(cur.name)]: cur.value }),
+              {}
+            ); 
+            axios.post("/predict", payload)
+              .then((resp) => resp.data)
+              .then((data) => {
+                this.prediction = data.prediction;   
+              })
+              .catch((e) => console.log(e));
+          },
+        },
+      });
+    </script>
+  </body>
 </html>
