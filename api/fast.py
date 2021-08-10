@@ -10,10 +10,10 @@ from sklearn.tree import DecisionTreeRegressor
 
 # data model of predictors
 class DiamondController(BaseModel):
+    carat: float = Field(..., example=0.6)
     cut: str = Field(..., example='Ideal')
     color: str = Field(..., example='J')
     clarity: str = Field(..., example='IF')
-    carat: float = Field(..., example=0.6)
     depth: float = Field(..., example=61.0)
     table: float = Field(..., example=55.0)
     x: float = Field(..., example=3.56)
@@ -31,11 +31,11 @@ def get_model():
 def read_index():
     return FileResponse("../app/views/index.html")
 
-@app.get("/predict")
+@app.post("/predict")
 async def predict(payload:DiamondController):
     # convert the payload to pandas DataFrame
-    input_df = pd.DataFrame(payload, index=range(1))
-    prediction = get_model().predict(input_df)
+    input_df = pd.DataFrame(payload.dict(), index=range(1))
+    prediction = get_model().predict(input_df)[0]
     return {
         'prediction': prediction
     }
