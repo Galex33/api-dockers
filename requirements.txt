@@ -1,5 +1,6 @@
 fastapi 
-numpy 
 uvicorn 
 pandas 
+numpy
 sklearn
+aiofiles
