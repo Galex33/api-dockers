@@ -26,9 +26,10 @@ def get_model():
     model = load(f'{path}/fit_model.joblib')
     return model
 
-@app.get("/accueil")
+@app.get("/")
 def read_index():
-    return FileResponse("../app/views/index.html")
+    app_path = os.path.dirname(os.path.realpath(__file__))
+    return FileResponse(f"{app_path}/../app/views/index.html")
 
 @app.post("/predict")
 async def predict(payload:DiamondController):

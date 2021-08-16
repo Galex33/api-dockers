@@ -1,4 +1,5 @@
 fastapi 
+aiofiles
 numpy 
 uvicorn 
 pandas 
