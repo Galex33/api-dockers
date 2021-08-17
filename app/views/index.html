@@ -6,13 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <!-- lien vers notre page CSS -->
-  <link rel="stylesheet" href="../css/style.css">
   <!-- lien pour bootstrap (librairie CSS) -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
-  <!-- lien CSS-->
-  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet" />
   <!-- lien CSS (vuetify) -->
   <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
   <!-- script JS (bootstrap) -->
@@ -32,59 +28,59 @@
       <v-main>
         <!-- <v-navigation-drawer right absolute> -->
         <v-container>
-          <div class="my-3">Side Panel</div>
-          <v-divider></v-divider>
           <div class="my-6">
             <!-- on boucle sur payload. Le v-model envoie les données (on lui met donc le p.value, qui sera la valeur entrée dans chaque champ du formulaire)-->
             <!-- peut-être faire un v-selector à la place du v-text-field ? -->
             <!-- le "v-bind" (les deux points devant le key par ex) : permet de lier le HTML avec les data, quand les infos sont déjà enregistrées en dur dans les data. Alors que le v-model est utilisé pour les inputs (ie pour faire changer la valeur dans data)-->
             <v-row>
               <v-col class="d-flex" cols="12" sm="4">
-                <v-select v-model="payload[1].value" :items="payload[1].items" :key="payload[1].name" label="Cut" outlined>
+                <v-select v-model="payload[1].value" :items="payload[1].items" :key="payload[1].name"
+                  label="Qualité de la taille" filled>
                 </v-select>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-select v-model="payload[2].value" :items="payload[2].items" label="Color" outlined>
+                <v-select v-model="payload[2].value" :items="payload[2].items" label="Couleur" filled>
                 </v-select>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-select v-model="payload[3].value" :items="payload[3].items" :key="payload[3].name" label="Clarity" outlined>
+                <v-select v-model="payload[3].value" :items="payload[3].items" :key="payload[3].name" label="Clarté"
+                  filled>
                 </v-select>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[0].value" :key="payload[0].name" label="Carat" outlined>
+                <v-text-field v-model="payload[0].value" :key="payload[0].name" label="Carats" filled>
                 </v-text-field>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[4].value" :key="payload[4].name" label="Depth" outlined>
+                <v-text-field v-model="payload[4].value" :key="payload[4].name" label="Taux de profondeur" filled>
                 </v-text-field>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[5].value" :key="payload[5].name" label="Table" outlined>
+                <v-text-field v-model="payload[5].value" :key="payload[5].name" label="Table" filled>
                 </v-text-field>
               </v-col>
             </v-row>
 
             <v-row>
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[6].value" :key="payload[6].name" label="x" outlined>
+                <v-text-field v-model="payload[6].value" :key="payload[6].name" label="Longueur" filled>
                 </v-text-field>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[7].value" :key="payload[7].name" label="y" outlined>
+                <v-text-field v-model="payload[7].value" :key="payload[7].name" label="Largeur" filled>
                 </v-text-field>
               </v-col>
 
               <v-col class="d-flex" cols="12" sm="4">
-                <v-text-field v-model="payload[8].value" :key="payload[8].name" label="z" outlined>
+                <v-text-field v-model="payload[8].value" :key="payload[8].name" label="Hauteur" filled>
                 </v-text-field>
               </v-col>
             </v-row>
@@ -92,18 +88,15 @@
           </div>
           <div class="my-3">
             <!-- c'est le @click qui lance la méthode call_api contenue dans le script -->
-            <v-btn text color="green" @click="call_api"> predict </v-btn>
+            <v-btn text color="white" x-large @click="call_api"> Estimer le prix </v-btn>
           </div>
         </v-container>
         <!-- </v-navigation-drawer> -->
         <v-container id="main">
-          <h1>Prédiction</h1>
+          <h3 v-if="prediction">Votre diamant est estimé à : {{ prediction }} €</h3>
           <!-- c'est le v-if qui est la syntaxe de VueJS pour le if -->
           <!-- ici permet d'afficher la prédiction seulement si elle existe (et donc de remettre à blanc quand on n'a pas appelé l'API) -->
-          <p v-if="prediction">Price :</br>
           <!-- c'est en encadrant avec les doubles accolades qu'on fait référence à la variable calculée dans la méthode du script -->
-          {{ prediction }} €
-          </p>
         </v-container>
       </v-main>
     </v-app>
@@ -190,6 +183,18 @@
       },
     });
   </script>
+  <style>
+    #app {
+      background-image: url('https://www.lescahiersdelinnovation.com/wp-content/uploads/2016/02/diamant.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .v-input__slot {
+      background-color: whitesmoke !important;
+    }
+  </style>
+
 </body>
 
 </html>
