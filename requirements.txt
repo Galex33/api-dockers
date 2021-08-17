@@ -1,6 +1,14 @@
 fastapi 
+<<<<<<< HEAD
+uvicorn 
+pandas 
+numpy
+sklearn
+aiofiles
+=======
 aiofiles
 numpy 
 uvicorn 
 pandas 
 sklearn
+>>>>>>> e13b95ba703dba9541531360df29edf83497eeb3
