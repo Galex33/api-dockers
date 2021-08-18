@@ -2,7 +2,7 @@ from pkg_diamond.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 from pkg_diamond.pipeline import *
 from sklearn.metrics import mean_absolute_error, r2_score
-from joblib import dump, load
+from joblib import dump
 
 class Model(Pipeline):
     def __init__(self, df, target, features="all"):

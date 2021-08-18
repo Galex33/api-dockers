@@ -4,3 +4,5 @@ numpy
 uvicorn 
 pandas 
 sklearn
+joblib
+pydantic
