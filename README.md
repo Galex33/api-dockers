@@ -48,11 +48,21 @@ Clone the project
   OR
   git clone git@github.com:Galex33/api-dockers.git
 ```
-
 Go to the project directory 
 
 ```bash
   cd api-dockers
+```
+
+Install requirements (python 3.8)
+
+```bash
+  make install_requirements
+```
+
+Go to the api directory 
+
+```bash
   cd api
 ```
 
