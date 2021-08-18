@@ -13,6 +13,16 @@ The predictive model (*DecisionTreeRegressor*) is based on several features :
 * **depth** : total depth percentage *(43 to 79)*
 * **table** :width of top of diamond relative to widest point 
 
+## Architecture
+
+![](https://zupimages.net/up/21/33/6rra.png)
+
+* **api folder** : 
+  - *fast.py* : main page of api using FastAPI and form controller. 
+  - *fit_model.joblib* : holds the pretrained model for diamond price prediction. 
+* **app folder** : contains front app. 
+* **pkg_dimaond** :
+  * 
 
 ## Demo
 
